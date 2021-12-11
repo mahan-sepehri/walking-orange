@@ -26,7 +26,16 @@
   gap: 40px;
 }
 
-.back-button {
+.back-button,
+.forward-button {
   width: 40px;
   height: 40px;
+  border: none;
+  background-color: transparent;
+}
+.back-button {
+  background-image: url(../assets/left-arrow.svg);
+}
+.forward-button {
+  background-image: url(../assets/right-arrow.svg);
 }
