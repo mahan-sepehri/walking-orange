@@ -1,0 +1,32 @@
+.game-screen {
+  width: 90vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.lottie-container {
+  width: 200px;
+  height: 200px;
+}
+
+.lottie-container.backward {
+  transform: scaleX(-1);
+}
+
+.button-container {
+  width: 90vw;
+  height: 10vh;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.back-button {
+  width: 40px;
+  height: 40px;
+}
