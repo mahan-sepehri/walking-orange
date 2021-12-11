@@ -6,3 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+* {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+}

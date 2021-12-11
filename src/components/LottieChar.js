@@ -10,19 +10,24 @@ let walkingOrange;
 const LottieChar = () => {
   const lottieContainerRef = useRef();
 
-  const forwardWalkHandler = () => {
+  const forwardWalkHandler = (e) => {
     lottieContainerRef.current.classList.remove("backward");
 
     walkingOrange.play();
   };
 
-  const backwardWalkHandler = () => {
+  const backwardWalkHandler = (e) => {
     lottieContainerRef.current.classList.add("backward");
 
     walkingOrange.play();
   };
 
   useEffect(() => {
+    window.oncontextmenu = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
     const ArrowKeyDownHandler = (e) => {
       if (e.key === "ArrowRight") {
         forwardWalkHandler();
@@ -61,13 +66,17 @@ const LottieChar = () => {
       </div>
       <div className="button-container">
         <button
-          onMouseDown={backwardWalkHandler}
+          onMouseDown={(e) => backwardWalkHandler(e)}
           onMouseUp={() => walkingOrange.stop()}
+          onTouchStart={(e) => backwardWalkHandler(e)}
+          onTouchEnd={() => walkingOrange.stop()}
           className="back-button"
         ></button>
         <button
-          onMouseDown={forwardWalkHandler}
+          onMouseDown={(e) => forwardWalkHandler(e)}
           onMouseUp={() => walkingOrange.stop()}
+          onTouchStart={(e) => forwardWalkHandler(e)}
+          onTouchEnd={() => walkingOrange.stop()}
           className="forward-button"
         ></button>
       </div>
