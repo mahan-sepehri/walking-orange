@@ -10,7 +10,10 @@ let movementCount;
 let charContainerWidth;
 
 const SPEED_RATIO = 20;
-const BARRIER_RATIO = 5;
+const BARRIER_RATIO = 20;
+const MOVEMENT_REFRESH = 45;
+const MOVEMENT_SPEED = 0.25;
+const ANIMATION_SPEED = 2;
 
 const LottieChar = () => {
   const lottieContainerRef = useRef();
@@ -46,7 +49,10 @@ const LottieChar = () => {
 
   const [movement, setMovement] = useState(0);
   const onMovementStart = (num) => {
-    movementCount = setInterval(() => setMovement((prev) => prev + num), 100);
+    movementCount = setInterval(
+      () => setMovement((prev) => prev + num),
+      MOVEMENT_REFRESH
+    );
   };
 
   //conditions for left and right barriers so orange can't walk off screen
@@ -89,7 +95,7 @@ const LottieChar = () => {
     setWalkingForward(true);
 
     walkingOrange.play();
-    onMovementStart(1);
+    onMovementStart(MOVEMENT_SPEED);
   }, []);
 
   const backwardWalkHandler = useCallback(() => {
@@ -99,7 +105,7 @@ const LottieChar = () => {
 
     walkingOrange.play();
 
-    onMovementStart(-1);
+    onMovementStart(0 - MOVEMENT_SPEED);
   }, []);
 
   useEffect(() => {
@@ -140,7 +146,7 @@ const LottieChar = () => {
       animationData: require("../assets/walkingOrange.json"),
       name: "walkingOrange",
     });
-    walkingOrange.setSpeed(5);
+    walkingOrange.setSpeed(ANIMATION_SPEED);
 
     return () => {
       document.removeEventListener("keydown", ArrowKeyDownHandler);

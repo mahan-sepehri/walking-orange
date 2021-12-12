@@ -13,7 +13,7 @@
   height: 200px;
   position: absolute;
   top: 30vh;
-  transition: left 0.1s ease-in-out;
+  transition: left 0.02s ease-in-out;
 }
 
 .lottie-container.backward {
