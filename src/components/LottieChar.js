@@ -7,19 +7,27 @@ import "./LottieChar.css";
 
 let walkingOrange;
 let movementCount;
+let charContainerWidth;
 
-const SPEED_RATIO = 17;
+const SPEED_RATIO = 20;
+const BARRIER_RATIO = 5;
 
 const LottieChar = () => {
   const lottieContainerRef = useRef();
+  const charContainerRef = useRef();
   const [dimension, updateDimention] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+
   const [walkingBack, setWalkingBack] = useState(false);
   const [walkingForward, setWalkingForward] = useState(false);
 
+  //getting width of screen and character container
+
   useEffect(() => {
+    charContainerWidth = charContainerRef.current.offsetWidth;
+    console.log(charContainerWidth);
     const dimensionTimer = () =>
       setTimeout(() => {
         updateDimention({
@@ -32,25 +40,27 @@ const LottieChar = () => {
     return () => window.removeEventListener("resize", dimensionTimer);
   }, [dimension]);
 
-  const pointZero = dimension.width / 2;
+  const pointZero = dimension.width / 2 - 120;
 
-  const [orangePosition, setOrangePosition] = useState(pointZero - 120);
+  const [orangePosition, setOrangePosition] = useState(pointZero);
 
   const [movement, setMovement] = useState(0);
   const onMovementStart = (num) => {
     movementCount = setInterval(() => setMovement((prev) => prev + num), 100);
   };
 
+  //conditions for left and right barriers so orange can't walk off screen
+
   useEffect(() => {
-    if (walkingBack && orangePosition < 70) {
-      setMovement((190 - pointZero) / SPEED_RATIO);
+    if (walkingBack && orangePosition < -70) {
+      setMovement((orangePosition - pointZero) / SPEED_RATIO);
       return;
     }
-    if (walkingForward && orangePosition > dimension.width - 200) {
-      setMovement((-80 + pointZero) / SPEED_RATIO);
+    if (walkingForward && orangePosition > charContainerWidth - 130) {
+      setMovement((orangePosition - pointZero) / SPEED_RATIO);
       return;
     }
-    setOrangePosition(pointZero - 120 + movement * SPEED_RATIO);
+    setOrangePosition(pointZero + movement * SPEED_RATIO);
   }, [
     movement,
     pointZero,
@@ -59,6 +69,10 @@ const LottieChar = () => {
     walkingForward,
     dimension.width,
   ]);
+
+  //pushing left and right at the same time causes multiple intervals
+  //and character won't stop. so we have to clear the last 10 intervals
+  //that may be created
 
   const onMovementStop = () => {
     for (let i = movementCount - 10; i < movementCount; i++) {
@@ -89,6 +103,8 @@ const LottieChar = () => {
   }, []);
 
   useEffect(() => {
+    //disabling browser right-click/long-press menu
+
     window.oncontextmenu = function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -124,6 +140,7 @@ const LottieChar = () => {
       animationData: require("../assets/walkingOrange.json"),
       name: "walkingOrange",
     });
+    walkingOrange.setSpeed(5);
 
     return () => {
       document.removeEventListener("keydown", ArrowKeyDownHandler);
@@ -136,11 +153,31 @@ const LottieChar = () => {
     <div>
       <div className="game-screen">
         <div
+          className="left-barrier"
           style={{
-            left: `${orangePosition}px`,
+            backgroundColor: "blue",
+            width: `${100 / BARRIER_RATIO}vw`,
           }}
-          className="lottie-container"
-          ref={lottieContainerRef}
+        ></div>
+        <div
+          className="char-container"
+          style={{ position: "relative", width: "100%" }}
+          ref={charContainerRef}
+        >
+          <div
+            style={{
+              left: `${orangePosition}px`,
+            }}
+            className="lottie-container"
+            ref={lottieContainerRef}
+          ></div>
+        </div>
+        <div
+          className="right-barrier"
+          style={{
+            backgroundColor: "red",
+            width: `${100 / BARRIER_RATIO}vw`,
+          }}
         ></div>
       </div>
       <div className="button-container">

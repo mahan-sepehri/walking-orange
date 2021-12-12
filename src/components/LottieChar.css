@@ -1,10 +1,10 @@
 .game-screen {
-  width: 90vw;
+  width: 100vw;
   height: 80vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  align-items: stretch;
+
   overflow-x: hidden;
 }
 
@@ -42,4 +42,8 @@
 }
 .forward-button {
   background-image: url(../assets/right-arrow.svg);
+}
+.back-button:focus-visible,
+.forward-button:focus-visible {
+  outline-color: transparent;
 }
