@@ -5,11 +5,15 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .lottie-container {
   width: 200px;
   height: 200px;
+  position: absolute;
+  top: 30vh;
+  transition: left 0.1s ease-in-out;
 }
 
 .lottie-container.backward {
@@ -32,7 +36,6 @@
   height: 40px;
   border: none;
   background-color: transparent;
- 
 }
 .back-button {
   background-image: url(../assets/left-arrow.svg);
